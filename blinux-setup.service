@@ -11,7 +11,7 @@ Environment=SYSTEMCTL_OPTIONS=--ignore-dependencies TERM=linux
 # ensure current queue doesn't block YaST starting it
 ExecStartPre=-/usr/bin/plymouth --hide-splash
 ExecStopPost=-/usr/bin/systemctl poweroff
-ExecStart=/usr/sbin/bocal-setup
+ExecStart=/usr/sbin/blinux-setup
 RemainAfterExit=yes
 TimeoutSec=0
 StandardInput=tty-force
