@@ -1,0 +1,49 @@
+#!/bin/sh
+
+# Copyright 2013-2014 Emmanuel Vadot <elbarto@bocal.org>
+
+if [ -f /etc/HOSTNAME ]; then
+    if [ ! -f /tmp/bocal-resetup ]; then
+	exit
+    fi
+fi
+
+# wait for long service to start
+sleep 2 
+
+cat <<EOF
+########################################################
+########################################################
+########################################################
+               Blinux Setup Service
+########################################################
+########################################################
+########################################################
+EOF
+
+echo -n "Enter Username: "
+read username
+echo -n "Enter Full name: "
+read fullname
+
+id ${username} 2>&1 > /dev/null
+if [ $? -eq 1 ]; then
+    useradd -m -c "${fullname}" -g users -d "/home/${username}" ${username} 
+else
+    usermod -c "${fullname}" ${username}
+    cp -r /etc/skel/.* /home/${username}
+fi
+
+i=1
+while [ ${i} -eq 1 ]; do
+    passwd ${username}
+    if [ $? -eq 0 ]; then
+	i=0
+    fi
+done
+
+echo "pc-${username}" > /etc/HOSTNAME
+
+rm -f /tmp/bocal-resetup
+
+shutdown -r now
