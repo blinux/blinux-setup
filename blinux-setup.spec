@@ -65,7 +65,7 @@ case "$*" in
 
 %files
 %attr(755,root,root) %{_sbindir}/%{name}
-%attr(755,root,root) %{_sbindir}/%{name}-step1
+%attr(755,root,root) %{_sbindir}/%{name}_step1
 %attr(644,root,root) /usr/lib/systemd/system/%{name}.service
 
 %changelog
