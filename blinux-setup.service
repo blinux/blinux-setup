@@ -1,29 +1,17 @@
 [Unit]
-Description=Blinux Setup Service
+Description=Blinux Update Service
 After=apparmor.service local-fs.target plymouth-start.service
 Before=getty@tty1.service xdm.service network.service NetworkManager.service SuSEfirewall2_init.service SuSEfirewall2.service
-RefuseManualStart=true
+ConditionPathExists=/var/lib/blinux-setup/runme
 
 [Service]
 Type=oneshot
-Environment=SYSTEMCTL_OPTIONS=--ignore-dependencies TERM=linux
-# firewall will be started by YaST Second Stage
-# ensure current queue doesn't block YaST starting it
 ExecStartPre=-/usr/bin/plymouth --hide-splash
-ExecStopPost=-/usr/bin/systemctl poweroff
 ExecStart=/usr/sbin/blinux-setup
 RemainAfterExit=yes
 TimeoutSec=0
-StandardInput=tty-force
-StandardOutput=inherit
-StandardError=inherit
-KillMode=process
-IgnoreSIGPIPE=no
-
-# Bash ignores SIGTERM, so we send SIGHUP instead, to ensure that bash
-# terminates cleanly.
-KillSignal=SIGHUP
+ExecStartPost=/usr/bin/systemctl restart systemd-vconsole-setup.service
+StandardInput=tty
 
 [Install]
-WantedBy=default.target
-
+WantedBy=multi-user.target

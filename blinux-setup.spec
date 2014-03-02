@@ -1,18 +1,47 @@
+#-
+# Copyright 2013-2014 Emmanuel Vadot <elbarto@bocal.org>
+# All rights reserved
+#
+# Redistribution and use in source and binary forms, with or without
+# modification, are permitted providing that the following conditions 
+# are met:
+# 1. Redistributions of source code must retain the above copyright
+#    notice, this list of conditions and the following disclaimer.
+# 2. Redistributions in binary form must reproduce the above copyright
+#    notice, this list of conditions and the following disclaimer in the
+#    documentation and/or other materials provided with the distribution.
+#
+# THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
+# IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+# WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+# ARE DISCLAIMED.  IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
+# DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+# DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
+# OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+# HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
+# STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING
+# IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+# POSSIBILITY OF SUCH DAMAGE.
+
 Name:		blinux-setup
 Version:	1.0
-Release:	2
+Release:	0
 License:        BSD-2-Clause
 Summary:	Blinux setup
-BuildRequires:	systemd
+Requires(post):	systemd
+Requires(preun):	systemd
 BuildArch:      noarch
+Source0:        %{name}-%{version}.tgz
 Vendor:		Bocal
 Url:            http://www.bocal.org
-Group:          Basic
+Group:          System Environment/Daemons
+Packager:       Emmanuel Vadot <elbarto@bocal.org>
 
 %description
 bocal-setup script opensuse bocal
 
 %prep
+%setup
 
 %build
 
@@ -20,16 +49,25 @@ bocal-setup script opensuse bocal
 rm -fr %{buildroot};
 mkdir -p %{buildroot}/usr/sbin;
 mkdir -p %{buildroot}/usr/lib/systemd/system;
-cd %{_sourcedir}
-mv blinux-setup %{buildroot}/usr/sbin;
-mv blinux-setup.service %{buildroot}/usr/lib/systemd/system;
+cp %{name} %{buildroot}/usr/sbin;
+cp %{name}_step1 %{buildroot}/usr/sbin;
+cp %{name}.service %{buildroot}/usr/lib/systemd/system;
 
 %post
 /usr/bin/systemctl enable blinux-setup.service
 
-%postrun
-/usr/bin/systemctl enable blinux-setup.service
+%postun
+case "$*" in
+  0)  
+  /usr/bin/systemctl disable blinux-update.service
+  ;;
+  esac
 
 %files
-%attr(755,root,root) /usr/sbin/blinux-setup
-%attr(644,root,root) /usr/lib/systemd/system/blinux-setup.service
+%attr(755,root,root) %{_sbindir}/%{name}
+%attr(755,root,root) %{_sbindir}/%{name}-step1
+%attr(644,root,root) /usr/lib/systemd/system/%{name}.service
+
+%changelog
+* Sun Mar 02 2014 Emmanuel Vadot <elbarto@bocal.org> - 1.0-0
+- Package creation
