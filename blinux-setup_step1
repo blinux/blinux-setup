@@ -45,7 +45,7 @@ def exitbutton_clicked(widget, data):
             crypted = crypt.crypt(passwd1, '$6$' + salt + '$')
             # add user
             try:
-                subprocess.call(['useradd', '-m', '-c', firstname + ' ' + name, '-d', '/home/' + login, '-g', 'users', '-p', crypted, login])
+                subprocess.call(['useradd', '-m', '-c', firstname + ' ' + name, '-d', '/home/' + login, '-k', '/etc/skel-BLINUX/', '-g', 'users', '-p', crypted, login])
                 subprocess.call(['hostnamectl', 'set-hostname', 'pc-' + login])
                 subprocess.call(['rm', '/var/lib/blinux-setup/runme'])
                 gtk.main_quit()
