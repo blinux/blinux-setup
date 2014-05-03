@@ -3,6 +3,7 @@
 import pygtk
 pygtk.require('2.0')
 import gtk
+import gobject
 
 import random
 import string
@@ -12,6 +13,20 @@ import subprocess
 
 def event_delete(widget, event, data=None):
     return False
+
+def event_combobox(widget, data=None):
+    if widget.get_active() == 0:
+        try:
+            subprocess.call(['setxkbmap', 'fr'])
+        except:
+            print 'Error'
+    elif widget.get_active() == 1:
+        try:
+            subprocess.call(['setxkbmap', 'us'])
+        except:
+            print 'Error'
+
+    return
 
 def dialog_response(dialog, response):
     dialog.destroy()
@@ -124,6 +139,14 @@ def mainwin():
     hbox.show()
     vbox.pack_start(hbox, False, False, 0)
 
+    combobox = gtk.combo_box_new_text()
+    combobox.append_text("FR")
+    combobox.append_text("US")
+    combobox.set_active(0)
+    combobox.connect("changed", event_combobox)
+    combobox.show()
+    hbox.pack_start(combobox, False, False, 0)
+
     exitbutton = gtk.Button("Exit (Discard Changes)")
     exitbutton.connect("clicked", exitbutton_clicked, None)
     exitbutton.show()
@@ -133,7 +156,7 @@ def mainwin():
     exitbutton2.connect("clicked", exitbutton_clicked, {'mainwin' : window, 'login' : login_entry, 'name' : name_entry, 'firstname' : firstname_entry, 'passwd' : password_entry, 'passwd_confirm' : password_entry2})
     exitbutton2.show()
     hbox.pack_start(exitbutton2, False, False, 0)
-        
+
     vbox.show()
     window.add(vbox)
 

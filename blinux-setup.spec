@@ -24,7 +24,7 @@
 # POSSIBILITY OF SUCH DAMAGE.
 
 Name:		blinux-setup
-Version:	1.1
+Version:	2.0
 Release:	0
 License:        BSD-2-Clause
 Summary:	Blinux setup
@@ -36,6 +36,7 @@ Vendor:		Bocal
 Url:            http://www.bocal.org
 Group:          System Environment/Daemons
 Packager:       Emmanuel Vadot <elbarto@bocal.org>
+Requires:	python-gtk, setxkbmap
 
 %description
 bocal-setup script opensuse bocal
@@ -46,11 +47,11 @@ bocal-setup script opensuse bocal
 %build
 
 %install
-rm -fr %{buildroot};
-mkdir -p %{buildroot}/usr/sbin;
-mkdir -p %{buildroot}/usr/lib/systemd/system;
-cp %{name} %{buildroot}/usr/sbin;
-cp %{name}_step1 %{buildroot}/usr/sbin;
+rm -fr %{buildroot}
+mkdir -p %{buildroot}/%{_sbindir}
+mkdir -p %{buildroot}/usr/lib/systemd/system
+cp %{name} %{buildroot}/%{_sbindir}
+cp %{name}_step1 %{buildroot}/%{_sbindir}
 cp %{name}.service %{buildroot}/usr/lib/systemd/system;
 
 %post
@@ -69,6 +70,9 @@ case "$*" in
 %attr(644,root,root) /usr/lib/systemd/system/%{name}.service
 
 %changelog
+* Sat May 03 2014 Emmanuel Vadot <elbarto@bocal.org> - 2.0-0
+- Bump to version 2.0
+
 * Sun Mar 02 2014 Emmanuel Vadot <elbarto@bocal.org> - 1.1-0
 - Bump to version 1.1
 
