@@ -24,7 +24,7 @@
 # POSSIBILITY OF SUCH DAMAGE.
 
 Name:		blinux-setup
-Version:	2.0
+Version:	2.1
 Release:	0
 License:        BSD-2-Clause
 Summary:	Blinux setup
@@ -70,6 +70,9 @@ case "$*" in
 %attr(644,root,root) /usr/lib/systemd/system/%{name}.service
 
 %changelog
+* Sun May 04 2014 Emmanuel Vadot <elbarto@bocal.org> - 2.1-0
+- Bump to version 2.1
+
 * Sat May 03 2014 Emmanuel Vadot <elbarto@bocal.org> - 2.0-0
 - Bump to version 2.0
 
