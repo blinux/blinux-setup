@@ -56,6 +56,8 @@ cp %{name}.service %{buildroot}/usr/lib/systemd/system;
 
 %post
 /usr/bin/systemctl enable blinux-setup.service
+mkdir /var/lib/blinux-setup/
+touch /var/lib/blinux-setup/runme
 
 %postun
 case "$*" in
