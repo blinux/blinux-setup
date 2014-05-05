@@ -38,6 +38,42 @@ def exitbutton_clicked(widget, data):
         firstname = data['firstname'].get_text()
         passwd1 =  data['passwd'].get_text()
         passwd2 = data['passwd_confirm'].get_text()
+        rescue = data['rescue'].get_text()
+
+        if login == "":
+            alert = gtk.MessageDialog(type=gtk.MESSAGE_ERROR, buttons=gtk.BUTTONS_OK)
+            alert.set_markup("Empty login")
+            alert.connect('response', dialog_response)
+            alert.run()
+            return
+
+        if name == "":
+            alert = gtk.MessageDialog(type=gtk.MESSAGE_ERROR, buttons=gtk.BUTTONS_OK)
+            alert.set_markup("Empty name")
+            alert.connect('response', dialog_response)
+            alert.run()
+            return
+
+        if firstname == "":
+            alert = gtk.MessageDialog(type=gtk.MESSAGE_ERROR, buttons=gtk.BUTTONS_OK)
+            alert.set_markup("Empty firstname")
+            alert.connect('response', dialog_response)
+            alert.run()
+            return
+
+        if rescue == "":
+            alert = gtk.MessageDialog(type=gtk.MESSAGE_ERROR, buttons=gtk.BUTTONS_OK)
+            alert.set_markup("Empty rescue login")
+            alert.connect('response', dialog_response)
+            alert.run()
+            return
+
+        if passwd1 == "":
+            alert = gtk.MessageDialog(type=gtk.MESSAGE_ERROR, buttons=gtk.BUTTONS_OK)
+            alert.set_markup("Empty password")
+            alert.connect('response', dialog_response)
+            alert.run()
+            return
 
         try:
             pwd.getpwnam(login)
@@ -57,6 +93,14 @@ def exitbutton_clicked(widget, data):
             return
         else:
             salt = ''.join(random.choice(string.ascii_uppercase + string.ascii_lowercase + string.digits) for x in range(12))
+            crypted = crypt.crypt(rescue, '$6$' + salt + '$')
+            # add rescue user
+            try:
+                subprocess.call(['useradd', '-m', '-c', 'Blinux Rescue', '-d', '/home/' + rescue, '-k', '/etc/skel-BLINUX/', '-g', 'users', '-p', crypted, rescue])
+            except:
+                print 'Error'
+
+            salt = ''.join(random.choice(string.ascii_uppercase + string.ascii_lowercase + string.digits) for x in range(12))
             crypted = crypt.crypt(passwd1, '$6$' + salt + '$')
             # add user
             try:
@@ -66,6 +110,8 @@ def exitbutton_clicked(widget, data):
                 gtk.main_quit()
             except:
                 print 'Error'
+
+
     else:
         gtk.main_quit()
 
@@ -84,7 +130,7 @@ def mainwin():
     welcome.show()
     vbox.pack_start(welcome, False, True, 50)
 
-    table = gtk.Table(5, 3, False)
+    table = gtk.Table(6, 3, False)
     table.show()
     vbox.pack_start(table, True, True, 0)
 
@@ -107,6 +153,10 @@ def mainwin():
     password_label2 = gtk.Label("Confirm Password : ")
     password_label2.show()
     table.attach(password_label2, 0, 1, 4, 5)
+
+    rescue_label = gtk.Label("Rescue User : ")
+    rescue_label.show()
+    table.attach(rescue_label, 0, 1, 5, 6)
 
     login_entry = gtk.Entry()
     login_entry.set_max_length(16)
@@ -135,6 +185,11 @@ def mainwin():
     password_entry2.show()
     table.attach(password_entry2, 1, 2, 4, 5)
 
+    rescue_entry = gtk.Entry()
+    rescue_entry.set_max_length(16)
+    rescue_entry.show()
+    table.attach(rescue_entry, 1, 2, 5, 6)
+
     hbox = gtk.HBox(False, 0)
     hbox.show()
     vbox.pack_start(hbox, False, False, 0)
@@ -153,7 +208,7 @@ def mainwin():
     hbox.pack_start(exitbutton, False, False, 0)
 
     exitbutton2 = gtk.Button("Exit (Save Changes)")
-    exitbutton2.connect("clicked", exitbutton_clicked, {'mainwin' : window, 'login' : login_entry, 'name' : name_entry, 'firstname' : firstname_entry, 'passwd' : password_entry, 'passwd_confirm' : password_entry2})
+    exitbutton2.connect("clicked", exitbutton_clicked, {'mainwin' : window, 'login' : login_entry, 'name' : name_entry, 'firstname' : firstname_entry, 'passwd' : password_entry, 'passwd_confirm' : password_entry2, 'rescue' : rescue_entry})
     exitbutton2.show()
     hbox.pack_start(exitbutton2, False, False, 0)
 
