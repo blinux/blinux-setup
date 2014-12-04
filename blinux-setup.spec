@@ -31,7 +31,9 @@ Summary:	Blinux setup
 Requires(post):	systemd
 Requires(preun):	systemd
 BuildArch:      noarch
-Source0:        %{name}-%{version}.tgz
+Source0:        blinux-setup
+Source1:	blinux-setup_step1
+Source2:	blinux-setup.service
 Vendor:		Bocal
 Url:            http://www.bocal.org
 Group:          System Environment/Daemons
@@ -42,7 +44,6 @@ Requires:	python-gtk, setxkbmap
 bocal-setup script opensuse bocal
 
 %prep
-%setup
 
 %build
 
@@ -50,13 +51,13 @@ bocal-setup script opensuse bocal
 rm -fr %{buildroot}
 mkdir -p %{buildroot}/%{_sbindir}
 mkdir -p %{buildroot}/usr/lib/systemd/system
-cp %{name} %{buildroot}/%{_sbindir}
-cp %{name}_step1 %{buildroot}/%{_sbindir}
-cp %{name}.service %{buildroot}/usr/lib/systemd/system;
+install -D -p -m 755 %{SOURCE0} %{buildroot}/%{_sbindir}
+install -D -p -m 755 %{SOURCE1} %{buildroot}/%{_sbindir}
+install -D -p -m 644 %{SOURCE2} %{buildroot}/usr/lib/systemd/system;
 
 %post
 /usr/bin/systemctl enable blinux-setup.service
-mkdir /var/lib/blinux-setup/
+mkdir -p /var/lib/blinux-setup/
 touch /var/lib/blinux-setup/runme
 
 %postun
