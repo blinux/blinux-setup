@@ -25,7 +25,7 @@
 
 Name:		blinux-setup
 Version:	2.1
-Release:	1
+Release:	0
 License:        BSD-2-Clause
 Summary:	Blinux setup
 Requires(post):	systemd
@@ -34,7 +34,7 @@ BuildArch:      noarch
 Source0:        blinux-setup
 Source1:	blinux-setup_step1
 Source2:	blinux-setup.service
-Vendor:		Blinux
+Vendor:		Bocal
 Url:            http://www.bocal.org
 Group:          System Environment/Daemons
 Packager:       Emmanuel Vadot <elbarto@bocal.org>
