@@ -25,7 +25,7 @@
 
 Name:		blinux-setup
 Version:	2.1
-Release:	0
+Release:	1
 License:        BSD-2-Clause
 Summary:	Blinux setup
 Requires(post):	systemd
