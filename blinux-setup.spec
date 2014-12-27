@@ -34,7 +34,7 @@ BuildArch:      noarch
 Source0:        blinux-setup
 Source1:	blinux-setup_step1
 Source2:	blinux-setup.service
-Vendor:		Bocal
+Vendor:		Blinux
 Url:            http://www.bocal.org
 Group:          System Environment/Daemons
 Packager:       Emmanuel Vadot <elbarto@bocal.org>
