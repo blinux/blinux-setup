@@ -25,7 +25,7 @@
 
 Name:		blinux-setup
 Version:	2.1
-Release:	2
+Release:	1
 License:        BSD-2-Clause
 Summary:	Blinux setup
 Requires(post):	systemd
@@ -81,9 +81,6 @@ case "$*" in
 %attr(644,root,root) /usr/lib/systemd/system/%{name}.service
 
 %changelog
-* Mon Dec 29 2014 Emmanuel Vadot <elbarto@bocal.org> - 2.1-2
-- Handle upgrade correctly
-
 * Sun May 04 2014 Emmanuel Vadot <elbarto@bocal.org> - 2.1-0
 - Bump to version 2.1
 
