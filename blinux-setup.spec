@@ -25,7 +25,7 @@
 
 Name:		blinux-setup
 Version:	2.1
-Release:	1
+Release:	2
 License:        BSD-2-Clause
 Summary:	Blinux setup
 Requires(post):	systemd
@@ -56,9 +56,17 @@ install -D -p -m 755 %{SOURCE1} %{buildroot}/%{_sbindir}
 install -D -p -m 644 %{SOURCE2} %{buildroot}/usr/lib/systemd/system;
 
 %post
-/usr/bin/systemctl enable blinux-setup.service
-mkdir -p /var/lib/blinux-setup/
-touch /var/lib/blinux-setup/runme
+case "$1" in
+    1)
+	/usr/bin/systemctl enable blinux-setup.service
+	mkdir -p /var/lib/blinux-setup/
+	touch /var/lib/blinux-setup/runme
+	;;
+    2)
+	/usr/bin/systemctl disable blinux-update.service
+	rm -f /var/lib/blinux-setup/runme
+	;;
+esac
 
 %postun
 case "$*" in
@@ -73,6 +81,9 @@ case "$*" in
 %attr(644,root,root) /usr/lib/systemd/system/%{name}.service
 
 %changelog
+* Mon Dec 29 2014 Emmanuel Vadot <elbarto@bocal.org> - 2.1-2
+- Handle upgrade
+
 * Sun May 04 2014 Emmanuel Vadot <elbarto@bocal.org> - 2.1-0
 - Bump to version 2.1
 
