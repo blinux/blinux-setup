@@ -2,7 +2,6 @@
 Description=Blinux Update Service
 After=apparmor.service local-fs.target plymouth-start.service
 Before=getty@tty1.service xdm.service network.service NetworkManager.service SuSEfirewall2_init.service SuSEfirewall2.service
-ConditionPathExists=/var/lib/blinux-setup/runme
 
 [Service]
 Type=oneshot
