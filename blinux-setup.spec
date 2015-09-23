@@ -60,11 +60,9 @@ case "$1" in
     1)
 	/usr/bin/systemctl enable blinux-setup.service
 	mkdir -p /var/lib/blinux-setup/
-	touch /var/lib/blinux-setup/runme
 	;;
     2)
 	/usr/bin/systemctl disable blinux-update.service
-	rm -f /var/lib/blinux-setup/runme
 	;;
 esac
 
