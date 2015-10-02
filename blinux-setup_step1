@@ -120,10 +120,18 @@ def exitbutton_clicked(widget, data):
         return
 
     try:
-        subprocess.call('systemctl disable blinux-setup', shell=True)
+        subprocess.call('sysconfig-cli displaymanager DISPLAYMANAGER lightdm', shell=True)
     except OSError:
         alert = gtk.MessageDialog(type=gtk.MESSAGE_ERROR, buttons=gtk.BUTTONS_OK)
-        alert.set_markup("Can't disable blinux-setup service")
+        alert.set_markup("Can't set DISPLAYMANAGER")
+        alert.connect('response', dialog_response)
+        alert.run()
+
+    try:
+        subprocess.call('salt-setup', shell=True)
+    except OSError:
+        alert = gtk.MessageDialog(type=gtk.MESSAGE_ERROR, buttons=gtk.BUTTONS_OK)
+        alert.set_markup("Can't setup salt")
         alert.connect('response', dialog_response)
         alert.run()
         return
