@@ -61,7 +61,7 @@ mkdir -p %{buildroot}/usr/lib/X11/displaymanagers/
 install -D -p -m 755 %{SOURCE0} %{buildroot}/%{_sbindir}
 install -D -p -m 755 %{SOURCE1} %{buildroot}/%{_sbindir}
 install -D -p -m 644 %{SOURCE2} %{buildroot}/usr/lib/systemd/system
-install -D -p -m 755 %{SOURCE2} %{buildroot}/usr/lib/X11/displaymanagers/
+install -D -p -m 755 %{SOURCE3} %{buildroot}/usr/lib/X11/displaymanagers/
 
 %files
 %attr(755,root,root) %{_sbindir}/%{name}
