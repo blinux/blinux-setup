@@ -1,0 +1,16 @@
+blinux_reload_proc() {
+    /etc/init.d/xdm restart
+    exit $?
+}
+
+blinux_vars() {
+    case $1 in
+        blinux)
+            DISPLAYMANAGER=/usr/sbin/blinux-setup
+            ;;
+        *)
+            return 1
+            ;;
+    esac
+    return 0
+}

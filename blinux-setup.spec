@@ -25,7 +25,7 @@
 
 Name:		blinux-setup
 Version:	3.0
-Release:	3
+Release:	4
 License:        BSD-2-Clause
 Summary:	Blinux setup
 
@@ -38,6 +38,7 @@ BuildArch:      noarch
 Source0:        blinux-setup
 Source1:	blinux-setup_step1
 Source2:	blinux-setup.service
+Source3:	blinux
 
 Vendor:		Blinux
 Url:            http://www.bocal.org
@@ -56,16 +57,22 @@ bocal-setup script opensuse bocal
 rm -fr %{buildroot}
 mkdir -p %{buildroot}/%{_sbindir}
 mkdir -p %{buildroot}/usr/lib/systemd/system
+mkdir -p %{buildroot}/usr/lib/X11/displaymanagers/
 install -D -p -m 755 %{SOURCE0} %{buildroot}/%{_sbindir}
 install -D -p -m 755 %{SOURCE1} %{buildroot}/%{_sbindir}
-install -D -p -m 644 %{SOURCE2} %{buildroot}/usr/lib/systemd/system;
+install -D -p -m 644 %{SOURCE2} %{buildroot}/usr/lib/systemd/system
+install -D -p -m 755 %{SOURCE2} %{buildroot}/usr/lib/X11/displaymanagers/
 
 %files
 %attr(755,root,root) %{_sbindir}/%{name}
 %attr(755,root,root) %{_sbindir}/%{name}_step1
 %attr(644,root,root) /usr/lib/systemd/system/%{name}.service
+%attr(755,root,root) /usr/lib/X11/displaymanagers/blinux
 
 %changelog
+* Fri Oct 02 2015 Emmanuel Vadot <elbarto@bocal.org> - 3.0-4
+- Install displaymanager file
+
 * Mon Dec 29 2014 Emmanuel Vadot <elbarto@bocal.org> - 2.1-2
 - Handle upgrade
 
