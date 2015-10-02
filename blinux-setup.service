@@ -1,11 +1,10 @@
 [Unit]
 Description=Blinux Update Service
-After=apparmor.service local-fs.target plymouth-start.service
+After=apparmor.service local-fs.target
 Before=getty@tty1.service xdm.service network.service NetworkManager.service SuSEfirewall2_init.service SuSEfirewall2.service
 
 [Service]
 Type=oneshot
-ExecStartPre=-/usr/bin/plymouth --hide-splash
 ExecStart=/usr/sbin/blinux-setup
 RemainAfterExit=yes
 TimeoutSec=0
