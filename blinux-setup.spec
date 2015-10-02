@@ -25,7 +25,7 @@
 
 Name:		blinux-setup
 Version:	3.0
-Release:	4
+Release:	5
 License:        BSD-2-Clause
 Summary:	Blinux setup
 
