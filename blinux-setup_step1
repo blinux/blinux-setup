@@ -97,7 +97,7 @@ def exitbutton_clicked(widget, data):
     salt = ''.join(random.choice(string.ascii_uppercase + string.ascii_lowercase + string.digits) for x in range(12))
     crypted = crypt.crypt(passwd1, '$6$' + salt + '$')
     try:
-        subprocess.call('useradd -m -c \'{0} {1}\' -d /home/{2} -k /etc/skel-BLINUX/ -g users -p {3} {4}'.format(firstname,
+        subprocess.call('useradd -m -c \'{0} {1}\' -d /home/{2} -k /etc/skel-BLINUX/ -g users -p \'{3}\' {4}'.format(firstname,
                                                                                                                  name,
                                                                                                                  login,
                                                                                                                  crypted,
