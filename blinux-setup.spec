@@ -60,18 +60,6 @@ install -D -p -m 755 %{SOURCE0} %{buildroot}/%{_sbindir}
 install -D -p -m 755 %{SOURCE1} %{buildroot}/%{_sbindir}
 install -D -p -m 644 %{SOURCE2} %{buildroot}/usr/lib/systemd/system;
 
-%pre
-%service_add_pre %{name}.service
-
-%post
-%service_add_post %{name}.service
-
-%preun
-%service_del_preun %{name}.service
-
-%postun
-%service_del_postun %{name}.service
-
 %files
 %attr(755,root,root) %{_sbindir}/%{name}
 %attr(755,root,root) %{_sbindir}/%{name}_step1
